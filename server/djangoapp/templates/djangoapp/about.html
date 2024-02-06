@@ -2,15 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dealership Review</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Best Cars Dealership</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="{% url 'djangoapp:index' %}">HOME</a>
+    </nav>
+
+    <div class="container">
+        <h1>About Us</h1>
+        <h2>Welcome to Best Cars Dealership</h2>
+        <p style="text-align: center;">Home to the best cars in North America, Best Cars Dealership is your premier destination for high-quality vehicles. We sell both domestic and imported cars at reasonable prices, ensuring that you find the perfect vehicle to match your needs and preferences.</p>
+        
+        <p style="text-align: center;">Our commitment to excellence extends beyond our exceptional selection of vehicles. We prioritize transparency, integrity, and reliability in all our dealings, providing you with a seamless car buying experience. Our experienced team is dedicated to assisting you throughout every step of the buying process, from browsing our extensive inventory to securing financing options tailored to your budget.</p>
+        
+        <p class="subtitle" style="text-align: center;">Your trusted partner in finding your dream car.</p>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
-    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,40 +38,26 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .navbar-brand {
-            font-size: 20px;
+            font-size: 18px;
             color: #333;
-            text-decoration: none;
         }
-        .navbar-nav {
-            display: flex;
-            align-items: center;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .navbar-nav .nav-link {
+        h1, h2 {
             color: #333;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 16px;
+            text-align: center;
+        }
+        .subtitle {
+            color: #4285f4;
+            margin-top: 10px;
         }
     </style>
-</head>
-
-<body>
-
-<!--Add a nav bar here -->
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Best Cars Dealerships</a>
-        </div>
-        <div class="navbar-nav">
-            <a class="nav-link" href="{% url 'djangoapp:about' %}">About</a>
-            <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
-        </div>
-    </div>
-</nav>
-
-<!--Add a dealer table here -->
-
 </body>
 </html>
 

@@ -27,6 +27,7 @@
             font-size: 20px;
             color: #333;
             text-decoration: none;
+            font-weight: bold; /* Make the navbar-brand text bold */
         }
         .navbar-nav {
             display: flex;
@@ -40,7 +41,6 @@
         }
     </style>
 </head>
-
 <body>
 
 <!--Add a nav bar here -->
@@ -50,12 +50,8 @@
             <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Best Cars Dealerships</a>
         </div>
         <div class="navbar-nav">
-            <div class="navbar-nav">
-                <a class="nav-link" href="{% url 'djangoapp:about' %}">About</a>
-            </div>
-            <div class="navbar-nav">
-                <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
-            </div>
+            <a class="nav-link" href="{% url 'djangoapp:about' %}">About</a>
+            <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
         </div>
     </div>
 </nav>
@@ -64,4 +60,5 @@
 
 </body>
 </html>
+
 

@@ -4,12 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Best Cars Dealership</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="{% url 'djangoapp:index' %}">HOME</a>
+    </nav>
+
+    <div class="container">
+        <h1>Contact Us</h1>
+        <div class="contact-info">
+            <p><strong>Address:</strong> 123 Main St, Denver, Colorado, 80202</p>
+            <p><strong>Telephone:</strong> +1 (123) 456-7890</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f7f7f7;
+        }
+        .navbar {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            font-size: 18px;
+            color: #333;
         }
         .container {
             max-width: 800px;
@@ -20,42 +48,20 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center; /* Center all content within the container */
         }
-        h1, h2 {
+        h1 {
             color: #333;
             text-align: center;
         }
-        p {
+        .contact-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .contact-info p {
             color: #666;
             line-height: 1.6;
-            text-align: center; /* Center paragraphs */
-        }
-        .subtitle {
-            color: #4285f4;
-            margin-top: 10px;
-        }
-        .navbar {
-            text-align: left; /* Align navigation bar to the left */
-            margin-bottom: 20px;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .navbar-brand {
-            font-size: 18px;
-            color: #333;
-            text-decoration: none;
+            margin-bottom: 10px;
         }
     </style>
-</head>
-<body>
-    <nav class="navbar">
-        <a class="navbar-brand" href="{% url 'djangoapp:index' %}">HOME</a>
-    </nav>
-
-    <div class="container">
-        <h1>Contact Us</h1>
-        <p>Address: 123 Main St, Denver, Colorado, 80202</p>
-        <p>Telephone: +1 (123) 456-7890</p>
-    </div>
 </body>
 </html>
+
