@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Best Cars Dealership</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center all content within the container */
+        }
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+            text-align: center; /* Center paragraphs */
+        }
+        .subtitle {
+            color: #4285f4;
+            margin-top: 10px;
+        }
+        .navbar {
+            text-align: left; /* Align navigation bar to the left */
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="{% url 'djangoapp:index' %}">HOME</a>
+    </nav>
+
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p>Address: 123 Main St, Denver, Colorado, 80202</p>
+        <p>Telephone: +1 (123) 456-7890</p>
+    </div>
+</body>
+</html>
