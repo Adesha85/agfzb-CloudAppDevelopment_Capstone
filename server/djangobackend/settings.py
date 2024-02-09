@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ['localhost','<Your app URL>']
 
 CSRF_TRUSTED_ORIGINS = ['<Your app URL>']
 
-
 # Application definition
 
 INSTALLED_APPS = [
