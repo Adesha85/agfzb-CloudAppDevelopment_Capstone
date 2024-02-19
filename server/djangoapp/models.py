@@ -6,9 +6,8 @@ from django.utils.timezone import now
 
 # <HINT> Create a Car Make model 
 class CarMake(models.Model):
-    car_make = models.CharField(null = False, max_length = 30)
+    name = models.CharField(null = False, max_length = 30)
     description = models.CharField(max_length = 200) # Description
-    country = models.CharField(max_length = 20) # - Any other fields you would like to include in car make model
     
     def __str__(self):
         return self.name # - method to print a car make object
@@ -16,32 +15,23 @@ class CarMake(models.Model):
 
 # <HINT> Create a Car Model model 
 class CarModel(models.Model):
-    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
-    model = models.CharField(null = False, max_length = 30)
-    dealer_id = models.IntegerField(null=False)# - Dealer id, used to refer a dealer created in cloudant database
-   
-    SEDAN = 'Sedan'
-    SUV = 'SUV'
-    WAGON = 'Wagon'
-    MINIVAN = 'Minivan'
-    CAR_TYPES = [
-        (SEDAN, 'Sedan'),
-        (SUV, 'SUV'),
-        (WAGON, 'Wagon'),
-        (MINIVAN, 'Minivan')
-    ]
-
-    car_type = models.CharField(
-        null=False,
-        max_length=50,
-        choices=CAR_TYPES,
-        default=SEDAN
-    )
+    SEDAN = 'sedan'
+    SUV = 'suv'
+    WAGON = 'wagon'
     
-    year = models.DateField(default=now)
+    CAR_MODEL_CHOICES = [
+    (SEDAN, 'Sedan'),
+    (SUV, 'SUV'),
+    (WAGON, 'Wagon')
+    ]
+    make = models.ForeignKey(CarMake, null=True, on_delete=models.CASCADE)
+    dealer_id = models.IntegerField(null=True)
+    name = models.CharField(null=False, max_length=30, default="")
+    model_type = models.CharField(null=True, max_length=30, choices=CAR_MODEL_CHOICES)
+    year = models.DateField(null=True)
 
     def __str__(self):
-        return "Name: " + self.name
+            return self.name + " " + self.model_type
 
 
 
