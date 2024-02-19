@@ -6,7 +6,7 @@ from django.utils.timezone import now
 
 # <HINT> Create a Car Make model 
 class CarMake(models.Model):
-    name = models.CharField(null=False, max_length=100, default=' ')
+    car_make = models.CharField(null = False, max_length = 30)
     description = models.CharField(max_length = 200) # Description
     country = models.CharField(max_length = 20) # - Any other fields you would like to include in car make model
     
@@ -16,8 +16,8 @@ class CarMake(models.Model):
 
 # <HINT> Create a Car Model model 
 class CarModel(models.Model):
-    name = models.CharField(null=False, max_length=100, default=' ')
-    model = models.CharField(null = False, max_length = 30)# - Name
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
+    model = models.CharField(null = False, max_length = 30)
     dealer_id = models.IntegerField(null=False)# - Dealer id, used to refer a dealer created in cloudant database
    
     SEDAN = 'Sedan'
@@ -37,7 +37,7 @@ class CarModel(models.Model):
         choices=CAR_TYPES,
         default=SEDAN
     )
-    make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
+    
     year = models.DateField(default=now)
 
     def __str__(self):
@@ -71,9 +71,11 @@ class CarDealer:
     def __str__(self):
         return "Dealer name: " + self.full_name
 
+
+
 # <HINT> Create a plain Python class `DealerReview` to hold review data
 class DealerReview:
-    def __init__(self, dealership, name, purchase, review, purchase_date, car_model, car_year, sentiment, id):
+    def __init__(self, dealership, name, purchase, review, purchase_date, car_make, car_model, car_year, sentiment, id):
         # Dealership 
         self.dealership = dealership
         # name
@@ -84,6 +86,8 @@ class DealerReview:
         self.review = review
         # Purchase date
         self.purchase_date = purchase_date
+        # Car make
+        self.car_make = car_make
         # Car model
         self.car_model = car_model
         # Car year

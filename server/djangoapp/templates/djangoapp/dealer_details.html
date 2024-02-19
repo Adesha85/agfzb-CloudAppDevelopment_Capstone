@@ -2,17 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dealership Review</title>
+    <title>Dealership Details</title>
     {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 
-    <body>
+<body>
 
-    <!--Add a nav bar here -->
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Best Cars</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="{% url 'djangoapp:index' %}">Home</a>
+                <a class="nav-link" href="{% url 'djangoapp:about' %}">About Us</a>
+                <a class="nav-link" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+            </div>
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'djangoapp:add_review' dealership.id %}">Add Review</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ user.first_name }} ({{ user.username }})</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'djangoapp:login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    <!-- Add reviews as cards -->
+<!-- Dealership Details -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Dealership Details</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Full Name: {{ dealership.full_name }}</li>
+                <li class="list-group-item">Short Name: {{ dealership.short_name }}</li>
+                <li class="list-group-item">Address: {{ dealership.address }}</li>
+                <li class="list-group-item">City: {{ dealership.city }}</li>
+                <li class="list-group-item">State: {{ dealership.st }}</li>
+                <li class="list-group-item">ZIP: {{ dealership.zip }}</li>
+                <li class="list-group-item">Latitude: {{ dealership.lat }}</li>
+                <li class="list-group-item">Longitude: {{ dealership.long }}</li>
+                <li class="list-group-item">ID: {{ dealership.id }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
-    </body>
+<!-- Dealer Reviews -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Dealer Reviews</h2>
+            {% if reviews %}
+                <ul class="list-group">
+                    {% for review in reviews %}
+                        <li class="list-group-item">
+                            {% if review.sentiment > 0 %}
+                                <span class="badge badge-success">Positive</span>
+                            {% elif review.sentiment < 0 %}
+                                <span class="badge badge-danger">Negative</span>
+                            {% else %}
+                                <span class="badge badge-info">Neutral</span>
+                            {% endif %}
+                            {{ review.review }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No reviews available yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
+</body>
 </html>

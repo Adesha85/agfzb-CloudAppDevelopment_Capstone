@@ -80,7 +80,7 @@ def get_dealerships(request):
 def get_dealer_details(request, dealer_id):
     context = {}
     dealer_url = "https://adeshademmin-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
-    reviews_url = "https://adeshademmin-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
+    reviews_url = "https://adeshademmin-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/get_reviews"
     dealerships = get_dealers_from_cf(dealer_url, id=dealer_id)
     if dealerships:
         context['dealership'] = dealerships[0]
@@ -89,7 +89,6 @@ def get_dealer_details(request, dealer_id):
     return render(request, 'djangoapp/dealer_details.html', context)
 
 
-# Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
     if request.method == "GET":
         context = {}
@@ -100,9 +99,12 @@ def add_review(request, dealer_id):
             context['cars'] = car_models
             context['dealership'] = dealerships[0]
             context['dealer_id'] = dealer_id
+
+            print("Dealer ID:", dealer_id)
+
             return render(request, 'djangoapp/add_review.html', context)
         else:
-            # Handle case where dealership not found
+            messages.error(request, 'Dealer not found.')
             return redirect("djangoapp:index")
     elif request.method == "POST":
         if request.user.is_authenticated:
@@ -116,7 +118,15 @@ def add_review(request, dealer_id):
                 "purchase_date": request.POST.get('purchasedate'),
             }
             response = post_request(url, review, dealerId=dealer_id)
-        return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
+            if response.status_code == 200:
+                messages.success(request, 'Review added successfully.')
+            else:
+                messages.error(request, 'Failed to add review. Please try again later.')
+            return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
+        else:
+            messages.error(request, 'You need to be logged in to add a review.')
+            return redirect("djangoapp:login")
+
 
 # Add the signup view here
 def signup(request):

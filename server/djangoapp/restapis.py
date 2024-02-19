@@ -16,6 +16,7 @@ def get_request(url, **kwargs):
         print(f"Network exception occurred: {e}")
     return response.json() if response else None
 
+
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
     try:
@@ -24,6 +25,7 @@ def post_request(url, json_payload, **kwargs):
     except requests.exceptions.RequestException as e:
         print(f"Network exception occurred: {e}")
     return response.json() if response else None
+
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 def get_dealers_from_cf(url, **kwargs):
@@ -45,6 +47,7 @@ def get_dealers_from_cf(url, **kwargs):
             results.append(dealer_obj)
     return results
 
+
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
 def get_dealer_reviews_from_cf(url, **kwargs):
     results = []
@@ -59,12 +62,14 @@ def get_dealer_reviews_from_cf(url, **kwargs):
                 id=dealer_review.get("id", None),
                 review=dealer_review.get("review", ""),
                 purchase_date=dealer_review.get("purchase_date", None),
+                car_make=dealer_review.get("car_make", ""),
                 car_model=dealer_review.get("car_model", ""),
                 car_year=dealer_review.get("car_year", None),
                 sentiment=sentiment
             )
             results.append(reviews_obj)
     return results
+    
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 def analyze_review_sentiments(dealer_review):
