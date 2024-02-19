@@ -8,23 +8,45 @@ from requests.auth import HTTPBasicAuth
 
 # Create a `get_request` to make HTTP GET requests
 def get_request(url, **kwargs):
+    
     response = None
+
+    api_key = kwargs.get("api_key")
+    print("GET from {} ".format(url))
     try:
-        response = requests.get(url, headers={'Content-Type': 'application/json'}, params=kwargs)
-        response.raise_for_status()  # Raise exception for non-200 status codes
-    except requests.exceptions.RequestException as e:
-        print(f"Network exception occurred: {e}")
-    return response.json() if response else None
+        # Call get method of requests library with URL and parameters
+        if api_key:
+            params = dict()
+            params["text"] = kwargs["text"]
+            params["version"] = kwargs["version"]
+            params["features"] = kwargs["features"]
+            params["return_analyzed_text"] = kwargs["return_analyzed_text"]
+            response = requests.get(url, params=kwargs, headers={'Content-Type': 'application/json'},
+                                    auth=HTTPBasicAuth('apikey', api_key))
+        else:
+            response = requests.get(url, headers={'Content-Type': 'application/json'},
+                                    params=kwargs)
+    except:
+        # If any error occurs
+        print("Network exception occurred")
+    status_code = response.status_code
+    print("With status {} ".format(status_code))
+    json_data = json.loads(response.text)
+    return json_data
 
 
 # Create a `post_request` to make HTTP POST requests
 def post_request(url, json_payload, **kwargs):
-    try:
-        response = requests.post(url, json=json_payload, params=kwargs)
-        response.raise_for_status()  # Raise exception for non-200 status codes
-    except requests.exceptions.RequestException as e:
-        print(f"Network exception occurred: {e}")
-    return response.json() if response else None
+    print(kwargs)
+    print("POST to {} ".format(url))
+    #try:
+    response = requests.post(url, json=json_payload, params=kwargs)
+    #except:
+       # print("Network exception occurred")
+    status_code = response.status_code
+    print("With status {} ".format(status_code))
+    json_data = json.loads(response.text)
+    return json_data
 
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
@@ -51,25 +73,18 @@ def get_dealers_from_cf(url, **kwargs):
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
 def get_dealer_reviews_from_cf(url, **kwargs):
     results = []
-    json_result = get_request(url, **kwargs)
-    if json_result:
-        for dealer_review in json_result:
+    json_result = get_request(url, id=kwargs['id'])
+    if(json_result):
+        dealer_reviews = json_result;
+        for dealer_review in dealer_reviews:
             sentiment = analyze_review_sentiments(dealer_review['review'])
-            reviews_obj = DealerReview(
-                dealership=dealer_review.get("dealership", None),
-                name=dealer_review.get("name", ""),
-                purchase=dealer_review.get("purchase", False),
-                id=dealer_review.get("id", None),
-                review=dealer_review.get("review", ""),
-                purchase_date=dealer_review.get("purchase_date", None),
-                car_make=dealer_review.get("car_make", ""),
-                car_model=dealer_review.get("car_model", ""),
-                car_year=dealer_review.get("car_year", None),
-                sentiment=sentiment
-            )
-            results.append(reviews_obj)
+            dealer_review_obj = DealerReview(dealership=dealer_review['dealership'], name=dealer_review['name'],
+                                    purchase=dealer_review['purchase'], review=dealer_review['review'], purchase_date=dealer_review['purchase_date'],
+                                    car_make=dealer_review['car_make'], car_model=dealer_review['car_model'], car_year=dealer_review['car_year'],
+                                    id=dealer_review['id'], sentiment=sentiment)
+            results.append(dealer_review_obj)
     return results
-    
+
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 def analyze_review_sentiments(dealer_review):
