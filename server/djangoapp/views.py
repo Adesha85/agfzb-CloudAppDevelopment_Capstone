@@ -90,42 +90,35 @@ def get_dealer_details(request, dealer_id):
 
 
 def add_review(request, dealer_id):
-    if request.method == "GET":
+    if(request.method == "GET"):
         context = {}
         dealer_url = "https://adeshademmin-3000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/dealerships/get"
         dealerships = get_dealers_from_cf(dealer_url, id=dealer_id)
         car_models = CarModel.objects.filter(dealer_id=dealer_id)
-        if dealerships:
-            context['cars'] = car_models
-            context['dealership'] = dealerships[0]
-            context['dealer_id'] = dealer_id
-
-            print("Dealer ID:", dealer_id)
-
-            return render(request, 'djangoapp/add_review.html', context)
-        else:
-            messages.error(request, 'Dealer not found.')
-            return redirect("djangoapp:index")
-    elif request.method == "POST":
-        if request.user.is_authenticated:
+        context['cars'] = car_models
+        context['dealership'] = dealerships[0]
+        context['dealer_id'] = dealer_id
+        return render(request, 'djangoapp/add_review.html', context)
+    elif(request.method=="POST"):
+        if(request.user.is_authenticated):
             url = "https://adeshademmin-5000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/post_review"
-            review = {
-                "id": 1,
-                "dealership": dealer_id,
-                "name": request.POST.get('name'),
-                "review": request.POST.get('review'),
-                "purchase": request.POST.get('purchasecheck') == "on",
-                "purchase_date": request.POST.get('purchasedate'),
-            }
-            response = post_request(url, review, dealerId=dealer_id)
-            if response.status_code == 200:
-                messages.success(request, 'Review added successfully.')
-            else:
-                messages.error(request, 'Failed to add review. Please try again later.')
-            return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
-        else:
-            messages.error(request, 'You need to be logged in to add a review.')
-            return redirect("djangoapp:login")
+            review = dict()
+            review["id"] = 1
+            review["dealership"] = dealer_id
+            review["name"] = request.POST.get('content')
+            review["review"] = request.POST.get('content')
+            review["purchase"] = request.POST.get('purchasecheck') == "on"
+            review["purchase_date"] = request.POST.get('purchasedate')
+            car_models = CarModel.objects.filter(id=request.POST.get('car'))
+            car_model = car_models[0]
+            review["car_make"] = car_model.make.name
+            review["car_model"] = car_model.name
+            review["car_year"] = str(car_model.year)[0:4]
+            print(review)
+            response = post_request(url, review, dealerId = dealer_id)
+            print(response)
+        return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
+
 
 
 # Add the signup view here
