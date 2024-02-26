@@ -58,26 +58,39 @@
                 <div class="col-lg-10">
                     <div class="card-columns">
                         <!-- Assuming your existing template contains a section to display reviews -->
-<!-- Add the newly added review to the list -->
-{% if reviews %}
-{% for review in reviews %}
-    <div class="card">
-        <!-- Display review details -->
-        <div class="card-body">
-            <h5 class="card-title">Car: {{ review.car_make }} {{ review.car_model }} ({{ review.car_year }})</h5>
-            <p class="card-text"><strong>Review Content:</strong> {{ review.review }}</p>
-            <p class="card-text"><strong>Date of Purchase:</strong> {{ review.purchase_date }}</p>
-            <p class="card-text"><strong>Sentiment Analysis:</strong> {% if review.sentiment == 0 %}Neutral{% elif review.sentiment > 0 %}Positive{% else %}Negative{% endif %}</p>
+                        <!-- Add the newly added review to the list -->
+                        {% if reviews %}
+                            {% for review in reviews %}
+                                <div class="card">
+                                    <!-- Visualize sentiment using emoji images -->
+                                    <div class="card-img-left">
+                                        {% if review.sentiment == 0 %}
+                                            <img src="{{ MEDIA_URL }}/emoji/neutral.png" width="30" height="30">
+                                        {% elif review.sentiment > 0 %}
+                                            <img src="{{ MEDIA_URL }}/emoji/positive.png" width="30" height="30">
+                                        {% else %}
+                                            <img src="{{ MEDIA_URL }}/emoji/negative.png" width="30" height="30">
+                                        {% endif %}
+                                    </div>
+                                    <!-- Display review details -->
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ review.car_make }} {{ review.car_model }} ({{ review.car_year }})</h5>
+                                        <p class="card-text">{{ review.review }}</p>
+                                      
+                                        
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No reviews yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-{% endfor %}
-{% else %}
-<p>No reviews yet.</p>
-{% endif %}
-
-                    </div>
-                
-    </div>
+    
+    
     </body>
 
 </html>
