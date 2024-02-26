@@ -119,27 +119,3 @@ def add_review(request, dealer_id):
             print(response)
         return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
 
-
-
-# Add the signup view here
-def signup(request):
-    context = {}
-    if request.method == 'GET':
-        return render(request, 'djangoapp/registration.html', context)
-    elif request.method == 'POST':
-        # Extract form data
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        
-        # Check if user exists
-        user_exist = User.objects.filter(username=username).exists()
-        if not user_exist:
-            # Create new user
-            user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, password=password)
-            login(request, user)
-            return redirect("djangoapp:index")
-        else:
-            context['message'] = "User already exists."
-            return render(request, 'djangoapp/registration.html', context)
