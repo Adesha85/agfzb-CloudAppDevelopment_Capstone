@@ -50,23 +50,34 @@ def post_request(url, json_payload, **kwargs):
 
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
+# def get_dealers_from_cf(url, **kwargs):
+# - Call get_request() with specified arguments
+# - Parse JSON results into a CarDealer object list
 def get_dealers_from_cf(url, **kwargs):
     results = []
-    json_result = get_request(url, **kwargs)
+    state = kwargs.get("state")
+    if state:
+        json_result = get_request(url, state=state)
+    else:
+        json_result = get_request(url)
+
+    print('json_result RESTAPIS', json_result)    
+
     if json_result:
-        for dealer in json_result:
-            dealer_obj = CarDealer(
-                address=dealer.get("address", ""),
-                city=dealer.get("city", ""),
-                full_name=dealer.get("full_name", ""),
-                id=dealer.get("id", None),
-                lat=dealer.get("lat", None),
-                long=dealer.get("long", None),
-                short_name=dealer.get("short_name", ""),
-                st=dealer.get("st", ""),
-                zip=dealer.get("zip", "")
-            )
+        # Get the row list in JSON as dealers
+        dealers = json_result
+
+        # For each dealer object
+        for dealer in dealers:
+            # Get its content in `doc` object
+            dealer_doc = dealer
+            # print(dealer_doc)
+            # Create a CarDealer object with values in `doc` object
+            dealer_obj = CarDealer(address=dealer_doc["address"], city=dealer_doc["city"],
+                                   dealer_id=dealer_doc["id"], lat=dealer_doc["lat"], long=dealer_doc["long"], full_name=dealer_doc["full_name"],
+                                   st=dealer_doc["st"], zip=dealer_doc["zip"],  short_name=dealer_doc["short_name"])
             results.append(dealer_obj)
+
     return results
 
 
