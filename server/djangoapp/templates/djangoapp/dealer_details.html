@@ -57,39 +57,25 @@
             <div class="row h-25 align-items-center py-2">
                 <div class="col-lg-10">
                     <div class="card-columns">
-                        <!-- Add the newly added review to the list -->
-                        {% if reviews %}
-                            {% for review in reviews %}
-                                <div class="card">
-                                    <!-- Visualize sentiment using emoji images -->
-                                    <div class="card-img-left">
-                                        {% if review.sentiment == 0 %}
-                                            <img src="{{ MEDIA_URL }}/emoji/neutral.png" width="30" height="30">
-                                        {% elif review.sentiment > 0 %}
-                                            <img src="{{ MEDIA_URL }}/emoji/positive.png" width="30" height="30">
-                                        {% else %}
-                                            <img src="{{ MEDIA_URL }}/emoji/negative.png" width="30" height="30">
-                                        {% endif %}
-                                    </div>
-                                    <!-- Display review details -->
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ review.car_make }} {{ review.car_model }} ({{ review.car_year }})</h5>
-                                        <p class="card-text">{{ review.review }}</p>
-                                      
-                                        
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <p>No reviews yet.</p>
-                        {% endif %}
+                        {% for review in review_list %}
+                        <div class="card">
+                            {% if review.sentiment < 0 %}
+                                <img class="card-img-left" src="{{MEDIA_URL}}/emoji/negative.png" width=30>
+                            {% elif review.sentiment > 0 %}
+                                <img class="card-img-left" src="{{MEDIA_URL}}/emoji/positive.png" width=30>
+                            {% else %}
+                                <img class="card-img-left" src="{{MEDIA_URL}}/emoji/neutral.png" width=30>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{review.car_make}}, {{review.car_model}}</h5>
+                                <h5 class="card-title">{{review.car_year}}</h5>
+                                <p class="card-text">{{review.review}}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
-                </div>
-            </div>
-        </div>
+                
     </div>
-    
-    
     </body>
 
 </html>
